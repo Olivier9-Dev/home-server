@@ -1,0 +1,26 @@
+services:
+  ntfy:
+    image: binwiederhier/ntfy:latest
+    container_name: ntfy
+    command: serve
+    restart: unless-stopped
+    ports:
+      - "8085:80"
+    environment:
+      TZ: America/Toronto
+      NTFY_BASE_URL: https://ntfy.home.${DOMAIN}
+      NTFY_CACHE_FILE: /var/cache/ntfy/cache.db
+      NTFY_ATTACHMENT_CACHE_DIR: /var/cache/ntfy/attachments
+      NTFY_AUTH_FILE: /var/lib/ntfy/auth.db
+      NTFY_AUTH_DEFAULT_ACCESS: deny-all      # nobody reads or posts without an account
+      NTFY_BEHIND_PROXY: "true"
+      NTFY_UPSTREAM_BASE_URL: https://ntfy.sh
+    volumes:
+      - ./cache:/var/cache/ntfy
+      - ./lib:/var/lib/ntfy
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    external: true
