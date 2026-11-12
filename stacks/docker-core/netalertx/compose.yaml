@@ -1,0 +1,13 @@
+services:
+  netalertx:
+    image: ghcr.io/netalertx/netalertx:latest
+    container_name: netalertx
+    restart: unless-stopped
+    network_mode: host      # ARP scans need layer 2 access to the LAN, a bridge network can't see it
+    volumes:
+      - ./data:/data        # chown 20211:20211 before first start
+      - /etc/localtime:/etc/localtime:ro
+    tmpfs:
+      - "/tmp:uid=20211,gid=20211,mode=1700"
+    environment:
+      PORT: 20211
