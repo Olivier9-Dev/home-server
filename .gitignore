@@ -1,0 +1,21 @@
+# Secrets: never commit these
+.env
+*.env
+!.env.example
+secrets/
+*.key
+*.pem
+*.enc
+
+# App data that lives next to compose files on the server
+data/
+postgres/
+config/
+cache/
+letsencrypt/
+
+# OS / editor junk
+.DS_Store
+Thumbs.db
+.vscode/
+*.swp
