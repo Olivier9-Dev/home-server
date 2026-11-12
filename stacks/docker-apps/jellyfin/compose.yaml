@@ -1,0 +1,23 @@
+services:
+  jellyfin:
+    image: jellyfin/jellyfin:latest
+    container_name: jellyfin
+    restart: unless-stopped
+    user: "1000:1000"
+    ports:
+      - "8096:8096"
+    environment:
+      JELLYFIN_PublishedServerUrl: https://jellyfin.home.${DOMAIN}
+    volumes:
+      - ./config:/config
+      - ./cache:/cache
+      - /srv/media:/media:ro          # read-only: Jellyfin can't delete my files
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+    # Intel Quick Sync (iGPU passed through to this VM)
+    devices:
+      - /dev/dri:/dev/dri
+    group_add:
+      - "${RENDER_GID}"
