@@ -1,0 +1,50 @@
+services:
+  semaphore-db:
+    image: postgres:17
+    container_name: semaphore-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: semaphore
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set it in .env}
+      POSTGRES_DB: semaphore
+    volumes:
+      - ./postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U semaphore -d semaphore"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - internal
+
+  semaphore:
+    image: semaphoreui/semaphore:latest
+    container_name: semaphore
+    restart: unless-stopped
+    depends_on:
+      semaphore-db:
+        condition: service_healthy
+    ports:
+      - "3003:3000"
+    environment:
+      TZ: America/Toronto
+      SEMAPHORE_DB_DIALECT: postgres
+      SEMAPHORE_DB_HOST: semaphore-db
+      SEMAPHORE_DB_PORT: 5432
+      SEMAPHORE_DB: semaphore
+      SEMAPHORE_DB_USER: semaphore
+      SEMAPHORE_DB_PASS: ${POSTGRES_PASSWORD:?set it in .env}
+      SEMAPHORE_ADMIN: admin
+      SEMAPHORE_ADMIN_NAME: Olivier
+      SEMAPHORE_ADMIN_EMAIL: ${ADMIN_EMAIL}
+      SEMAPHORE_ADMIN_PASSWORD: ${SEMAPHORE_ADMIN_PASSWORD:?set it in .env}
+      SEMAPHORE_ACCESS_KEY_ENCRYPTION: ${SEMAPHORE_ACCESS_KEY_ENCRYPTION:?set it in .env}
+      SEMAPHORE_PLAYBOOK_PATH: /tmp/semaphore/
+    networks:
+      - proxy
+      - internal
+
+networks:
+  proxy:
+    external: true
+  internal: {}
