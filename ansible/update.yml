@@ -1,0 +1,20 @@
+# Run weekly from Semaphore (Sundays 04:00 UTC).
+# Reports reboots instead of rebooting, because Semaphore itself runs on docker-core.
+- name: Update the Debian Docker VMs
+  hosts: docker_hosts
+  become: true
+  tasks:
+    - name: Refresh apt and apply all upgrades
+      ansible.builtin.apt:
+        update_cache: true
+        upgrade: dist
+        autoremove: true
+
+    - name: Check whether a reboot is needed
+      ansible.builtin.stat:
+        path: /var/run/reboot-required
+      register: reboot_flag
+
+    - name: Report
+      ansible.builtin.debug:
+        msg: "{{ inventory_hostname }} reboot required: {{ reboot_flag.stat.exists }}"
