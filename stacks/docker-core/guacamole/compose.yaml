@@ -1,0 +1,56 @@
+# Before first start:
+#   mkdir init && docker run --rm guacamole/guacamole:1.5.5 /opt/guacamole/bin/initdb.sh --postgresql > init/initdb.sql
+services:
+  guacd:
+    image: guacamole/guacd:1.5.5
+    container_name: guacd
+    restart: unless-stopped
+    networks:
+      - internal
+
+  guacamole-db:
+    image: postgres:17
+    container_name: guacamole-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: guacamole
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set it in .env}
+      POSTGRES_DB: guacamole_db
+    volumes:
+      - ./init:/docker-entrypoint-initdb.d:ro
+      - ./postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U guacamole -d guacamole_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - internal
+
+  guacamole:
+    image: guacamole/guacamole:1.5.5   # pinned so the app and DB schema always match
+    container_name: guacamole
+    restart: unless-stopped
+    depends_on:
+      guacd:
+        condition: service_started
+      guacamole-db:
+        condition: service_healthy
+    environment:
+      GUACD_HOSTNAME: guacd
+      POSTGRES_HOSTNAME: guacamole-db
+      POSTGRES_DATABASE: guacamole_db
+      POSTGRES_USER: guacamole
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set it in .env}
+      TOTP_ENABLED: "true"
+      REMOTE_IP_VALVE_ENABLED: "true"
+    ports:
+      - "8086:8080"
+    networks:
+      - proxy
+      - internal
+
+networks:
+  proxy:
+    external: true
+  internal: {}
