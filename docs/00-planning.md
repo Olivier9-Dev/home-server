@@ -6,11 +6,10 @@ Decide what runs where before touching anything, so I don't have to redo the net
 
 ## What I did
 
-- Mapped my network with `ipconfig`: subnet `192.168.1.0/24`, gateway `192.168.1.1`.
-- Checked the router's DHCP pool and kept my static IPs outside of it.
-- Picked one IP per machine (see the table in the main README).
-- Turned on VT-x (and VT-d) in the Acer's BIOS.
-- Bought a domain on Cloudflare for the HTTPS certificates.
+- Mapped my network with `ipconfig`: subnet `192.168.0.0/24`.
+- Picked one static IP per machine (see the table in the main README).
+- Checked the hardware: the Acer has a single 512 GB NVMe, so the VMs and the media share it and backups go to an external SSD.
+- Went through every planned service and asked "would I actually use this every week?" The list went from 23 services to 14.
 
 ## Decisions
 
@@ -19,7 +18,9 @@ Decide what runs where before touching anything, so I don't have to redo the net
 | Proxmox instead of installing Docker straight on the Acer | Snapshots, backups, and I can run LXCs and VMs side by side |
 | DNS and VPN in LXCs, apps in Docker VMs | Breaking Docker shouldn't kill the internet for the whole house |
 | No port forwarding, Tailscale only | Smaller attack surface, and it works through my double NAT |
-| Laptop as a dedicated backup server | Backups on the same machine as the data don't protect against much |
+| Dropped Portainer, Beszel, Gitea, Guacamole, NetBox, Semaphore and draw.io | Each one was either covered by something else (the Docker CLI, Proxmox's graphs, GitHub) or something I wouldn't use day to day. Fewer services = fewer things to update and secure |
+| Backups to an external SSD instead of a laptop running Proxmox Backup Server | Simpler, and it frees the laptop. Trade-off: the backups are in the same machine, so I add a monthly off-site copy |
+| Media disk on the NVMe, left out of the backups | Only one internal disk. Media can be copied again; VMs can't |
 
 ## What broke
 

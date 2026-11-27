@@ -2,7 +2,12 @@
 
 Every service has its own folder with a `compose.yaml`. On the server they live in `/opt/stacks/<name>/`, with the app's data right next to the compose file. One folder = one thing to back up, move or delete.
 
-Before starting a stack:
+| VM | Stacks |
+|---|---|
+| `docker-core` | `npm`, `uptime-kuma`, `ntfy`, `dozzle`, `diun`, `netalertx`, `homepage`, `it-tools`, `searxng` |
+| `docker-apps` | `jellyfin`, `dozzle-agent`, `diun` |
+
+Starting a stack:
 
 ```bash
 docker network create proxy          # once per VM, shared with Nginx Proxy Manager
@@ -14,7 +19,7 @@ docker compose up -d
 
 Rules I follow:
 
-- Pin database major versions (`postgres:17`). Never upgrade a DB major in place.
-- One database container per app, on a private `internal` network.
-- Anything that only needs a web UI goes behind Nginx Proxy Manager on the `proxy` network.
-- Updates: Diun tells me, I read the release notes, then `docker compose pull && docker compose up -d`.
+- Anything with a web UI joins the `proxy` network and is reached through Nginx Proxy Manager over HTTPS.
+- Tools that only need to read Docker get the socket **read-only** (`:ro`).
+- Secrets (tokens, domain) live in `.env`, which is git-ignored. Only `.env.example` is committed.
+- Updates: Diun tells me, I read the release notes, then `docker compose pull && docker compose up -d`, one stack at a time.

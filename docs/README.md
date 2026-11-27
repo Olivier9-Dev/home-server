@@ -12,16 +12,15 @@ New phases start from [`_template.md`](_template.md).
 
 | Phase | Notes | Status |
 |---|---|---|
-| 0 | [Planning](00-planning.md) | In progress |
-| 1 | Proxmox install | Not started |
-| 2 | AdGuard Home | Not started |
+| 0 | [Planning](00-planning.md) | Done |
+| 1 | Proxmox install | Done |
+| 2 | AdGuard Home | In progress |
 | 3 | Tailscale | Not started |
 | 4 | Docker VMs | Not started |
-| 4B | Proxmox Backup Server | Not started |
+| 4B | Nightly backups to the external SSD | Not started |
 | 5 | First containers | Not started |
 | 6 | Monitoring and alerts | Not started |
 | 7 | HTTPS and reverse proxy | Not started |
-| 8 | Daily tools + Gitea | Not started |
-| 9 | Guacamole, NetBox, Semaphore | Not started |
-| 10 | Jellyfin | Not started |
-| 11 | Backups and maintenance | Not started |
+| 8 | Daily tools | Not started |
+| 9 | Jellyfin | Not started |
+| 10 | Updates and maintenance | Not started |

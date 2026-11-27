@@ -16,8 +16,8 @@ services:
       resources:
         limits:
           memory: 2G
-    # Intel Quick Sync (iGPU passed through to this VM)
-    devices:
-      - /dev/dri:/dev/dri
-    group_add:
-      - "${RENDER_GID}"
+    # Intel Quick Sync, only once the iGPU is passed through to this VM:
+    # devices:
+    #   - /dev/dri:/dev/dri
+    # group_add:
+    #   - "${RENDER_GID}"
