@@ -15,7 +15,7 @@ New phases start from [`_template.md`](_template.md).
 | 0 | [Planning](00-planning.md) | Done |
 | 1 | Proxmox install | Done |
 | 2 | [AdGuard Home](02-adguard-home.md) | Done |
-| 3 | Tailscale | Not started |
+| 3 | [Tailscale](03-tailscale.md) | Done |
 | 4 | Docker VMs | Not started |
 | 4B | Nightly backups to the external SSD | Not started |
 | 5 | First containers | Not started |

@@ -4,7 +4,7 @@ The home server I run at my place. It's not a fake company lab: it's stuff my ho
 
 I built it to learn Docker properly and to practise what I'm studying: networking, Linux, DNS, TLS and backups. Every phase is documented so someone else could rebuild it from scratch, including the parts where I messed up.
 
-> **Status:** in progress. Proxmox and AdGuard Home are running; Tailscale is next. See the [roadmap](#roadmap).
+> **Status:** in progress. Proxmox, AdGuard Home and Tailscale are running; the Docker VMs are next. See the [roadmap](#roadmap).
 
 ## Architecture
 
@@ -108,8 +108,8 @@ A failed backup sends an alert to my phone. I test a restore every month: a back
 - [x] Phase 0 – Planning (IP plan, hardware, service list)
 - [x] Phase 1 – Proxmox install + base config
 - [x] Phase 2 – [AdGuard Home](docs/02-adguard-home.md)
-- [ ] Phase 3 – Tailscale subnet router *(next)*
-- [ ] Phase 4 – Docker VMs
+- [x] Phase 3 – [Tailscale subnet router](docs/03-tailscale.md)
+- [ ] Phase 4 – Docker VMs *(next)*
 - [ ] Phase 4B – Nightly backups to the external SSD
 - [ ] Phase 5 – First containers (Uptime Kuma, Dozzle)
 - [ ] Phase 6 – Monitoring and alerts (ntfy, Diun, NetAlertX, Proxmox alerts)
