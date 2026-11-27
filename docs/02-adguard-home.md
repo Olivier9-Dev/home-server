@@ -43,20 +43,20 @@ AdGuard checks each name against its blocklists. Normal names get their real add
 
 `doubleclick.net` resolves to `0.0.0.0` (blocked), and the answer comes from `192.168.0.11`:
 
-![nslookup doubleclick.net returns 0.0.0.0](../screenshots/phase-2-nslookup.png)
+![nslookup doubleclick.net returns 0.0.0.0](../screenshots/phase-2/nslookup.png)
 
 Query log: Chrome's tracking beacons blocked by the AdGuard DNS filter, normal Google domains still processed:
 
-![AdGuard query log with blocked queries](../screenshots/phase-2-query-log.png)
+![AdGuard query log with blocked queries](../screenshots/phase-2/query-log.png)
 
 Blocklists:
 
-![AdGuard blocklists](../screenshots/phase-2-blocklists.png)
+![AdGuard blocklists](../screenshots/phase-2/blocklists.png)
 
 Encrypted upstream DNS servers:
 
-![Upstream DNS servers: Cloudflare and Quad9 over HTTPS](../screenshots/phase-2-upstream-dns.png)
+![Upstream DNS servers: Cloudflare and Quad9 over HTTPS](../screenshots/phase-2/upstream-dns.png)
 
 Router pointing the whole network at AdGuard:
 
-![D-Link router DNS settings](../screenshots/phase-2-router-dns.png)
+![D-Link router DNS settings](../screenshots/phase-2/router-dns.png)
